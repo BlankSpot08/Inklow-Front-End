@@ -8,6 +8,7 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
+        <b-nav-item to="/community">Community</b-nav-item>
         <b-nav-item to="/about">About</b-nav-item>
         <b-nav-item to="/support">Support</b-nav-item>
       </b-navbar-nav>
@@ -31,32 +32,34 @@ import AuthService from "@/services/auth.service"
 
 export default {
   name: 'Navigation',
-  // components: {UserProfile, LoginRegister},
   data() {
     return {  }
   },
   computed: {
     loginStatus() {
-      const user = JSON.parse(localStorage.getItem('token'))
-
-      if (user) {
-        console.log('user is logged in')
-        return true
-      }
-
-      console.log('user is not logged in')
-      return false
+      // const user = JSON.parse(localStorage.getItem('token'))
+      //
+      // if (user) {
+      //   console.log('user is logged in')
+      //   return true
+      // }
+      //
+      // console.log('user is not logged in')
+      // return false
+      return this.$store.state.loginStatus
     },
   },
   methods: {
-    logout() {
+    logout: function() {
       AuthService.logout()
 
+      this.$store.dispatch('updateLoginStatus', false)
       this.$router.push('/')
     }
   },
   created() {
     console.log(localStorage.getItem('user'))
+    console.log(this.$store.state.loginStatus)
   }
 }
 </script>

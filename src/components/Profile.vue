@@ -1,10 +1,8 @@
 <template>
   <b-container class="">
-    <b-row class="" align-h="center">
-      <b-col class="" cols="6" md="4"></b-col>
-
-      <b-col class="" cols="6" md="6">
-        <div class="py-5 my-3">
+    <b-row class="">
+      <b-col class="" cols="12" md="12">
+        <div class=" py-5 my-3">
           <div class="text-center">
             <label class="display-4">{{this.title}}</label>
           </div>
@@ -12,21 +10,28 @@
       </b-col>
     </b-row>
 
-    <b-row class="" align-h="center">
-      <b-col cols="5" md="3">
-        <b-navbar toggleable="" class="border-top border-bottom border-dark mr-2">
-          <b-navbar-nav>
-            <b-nav-item to="/MyPage/Home">Account Information</b-nav-item>
-            <b-nav-item to="/MyPage/Settings">Security Center</b-nav-item>
-            <b-nav-item to="/MyPage/Settings">Settings</b-nav-item>
-          </b-navbar-nav>
+    <b-row class="">
+      <b-col class="">
+        <b-navbar toggleable="lg" class="">
+          <b-navbar-toggle target="test" label="test"></b-navbar-toggle>
+
+          <b-collapse id="test" is-nav>
+            <b-navbar-nav>
+              <b-nav-item to="/MyPage/Home">Account Information</b-nav-item>
+              <b-nav-item to="/MyPage/Settings">Security Center</b-nav-item>
+              <b-nav-item to="/MyPage/Settings">Settings</b-nav-item>
+            </b-navbar-nav>
+          </b-collapse>
         </b-navbar>
       </b-col>
-      <b-col cols="7" md="7">
-        <div class="border-top border-dark ml-2">
-          <router-view></router-view></div>
+    </b-row>
+
+    <b-row class="">
+      <b-col class="">
+        <router-view></router-view>
       </b-col>
     </b-row>
+
   </b-container>
 </template>
 
@@ -37,7 +42,7 @@ export default {
   name: "Profile",
   data() {
     return {
-      title: 'My Page',
+      title: 'Account Information',
       user: new User()
     }
   },

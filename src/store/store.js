@@ -11,12 +11,12 @@ export const store = new Vuex.Store({
 
     },
     mutations: {
-        updateLoginStatus(state, payload) {
+        updateLoginStatus: (state, payload) => {
             state.loginStatus = payload
         }
     },
     actions: {
-        updateLoginStatus(context, payload) {
+        updateLoginStatus: (context, payload) => {
             context.commit('updateLoginStatus', payload)
         }
     }

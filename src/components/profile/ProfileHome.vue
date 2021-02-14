@@ -151,7 +151,7 @@ export default {
   created() {
     const user = JSON.parse(localStorage.getItem('user'))
 
-    this.user = new User(user.firstName, user.lastName, user.gender, user.birthDate, user.username, user.password, user.email, user.phoneNumber)
+    this.user = new User(user.firstName, user.lastName, user.gender, user.birthDate, user.username, user.password, user.email, user.phoneNumber, user.roles)
   }
 
 }
