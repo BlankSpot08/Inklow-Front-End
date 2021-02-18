@@ -4,7 +4,7 @@ class UserService {
     async getUser(token) {
         this.authHeader = {'Authorization': 'Bearer ' + token}
 
-        return axios.post('api/user/get', null, {
+        return axios.post('api/user/get ', null, {
             headers: this.authHeader
         })
     }

@@ -8,9 +8,9 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item to="/community">Community</b-nav-item>
-        <b-nav-item to="/about">About</b-nav-item>
-        <b-nav-item to="/support">Support</b-nav-item>
+        <b-nav-item to="/Communnity">Community</b-nav-item>
+        <b-nav-item to="/About">About</b-nav-item>
+        <b-nav-item to="/Support">Support</b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav v-if="loginStatus" class="ml-auto" >
@@ -19,8 +19,8 @@
       </b-navbar-nav>
 
       <b-navbar-nav v-else class="ml-auto">
-        <b-nav-item to="/member/register/main">Sign Up</b-nav-item>
-        <b-nav-item to="/member/login">Login</b-nav-item>
+        <b-nav-item to="/Member/Register/Main">Sign Up</b-nav-item>
+        <b-nav-item to="/Member/Login">Login</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 class AuthService {
     login(user) {
-        return axios.post('/api/user_authentication',
+        return axios.post('api/user_authentication',
             { username: user.username, password: user.password})
     }
 

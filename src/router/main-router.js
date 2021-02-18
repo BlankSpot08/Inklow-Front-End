@@ -5,11 +5,11 @@ import Register from '@/components/register/Register'
 import Home from '@/components/Home'
 import About from '@/components/About'
 import Login from '@/components/Login';
-import RegisterMain from '@/components/register/Register.Main'
-import Support from '@/components/Support'
+import RegisterMain from '@/components/register/RegisterHome'
 import Profile from '@/components/Profile'
 import ProfileHome from '@/components/profile/ProfileHome'
 import ProfileSettings from '@/components/profile/ProfileSettings'
+import SupportHome from "@/components/support/SupportHome";
 
 Vue.use(Router)
 
@@ -21,29 +21,24 @@ export default new Router({
             component: Home
         },
         {
-            path: '/about',
+            path: '/About',
             name: 'About',
             component: About
         },
         {
-            path: '/member/login',
+            path: '/Member/Login',
             name: 'Login',
             component: Login
         },
         {
-            path: '/member/register/main',
+            path: '/Member/Register/Main',
             name: 'Register',
             component: RegisterMain,
         },
         {
-            path: '/member/register/in-progress',
+            path: '/Member/Register/In-Progress',
             name: 'In-Progress',
             component: Register
-        },
-        {
-            path: '/support',
-            name: 'Support',
-            component: Support
         },
         {
             path: '/MyPage',
@@ -61,6 +56,11 @@ export default new Router({
                     component: ProfileSettings
                 }
             ]
+        },
+        {
+            path: '/Support',
+            name: 'Support',
+            component: SupportHome
         }
     ]
 })
