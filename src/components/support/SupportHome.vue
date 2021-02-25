@@ -1,26 +1,21 @@
 <template>
   <b-container class="py-4 bg-white">
     <b-row class="" align-h="center">
-      <b-col class="p-0" md="6">
-        <div style="height: 60px">
+      <b-col class="p-0" cols="" md="5">
           <b-button class="w-100 h-100" size="lg" squared>
             My Inquiries
           </b-button>
-        </div>
       </b-col>
 
-      <b-col class="p-0" md="6">
-        <div style="height: 60px">
+      <b-col class="p-0" md="5">
           <b-button @click="goToLink('SupportIndex')" class="w-100 h-100" size="lg" squared>
             Submit an Inquiry
           </b-button>
-        </div>
       </b-col>
     </b-row>
 
-    <b-row class="my-4 py-4 border" align-h="center">
-
-      <b-col class="w-100 py-0 mx-0" md="12">
+    <b-row class="" align-h="center">
+      <b-col class="my-4 py-4 border" md="10">
         <div class="text-center pb-4">
           <label>
             <strong>
@@ -46,75 +41,70 @@
       </b-col>
     </b-row>
 
-    <b-row class="border py-4" align-h="center" align-content="center" align-v="center">
+    <b-row class="" align-h="center">
+      <b-col class="py-4 border" md="10">
+        <b-container>
+          <b-row align-h="center">
+            <b-col md="10">
+              <div class="text-center">
+                <b-input-group class="w-100">
+                  <b-form-input class="tex" size="md" placeholder="Search for what you need.">
+                  </b-form-input>
+                  <b-input-group-append>
+                    <b-button class="" squared>
+                      Search
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+            </b-col>
+          </b-row>
 
-      <b-col class="w-100 px-0 mx-3 border-0" md="11">
+          <b-row align-h="center">
+            <b-col class="py-3" md="8">
+              <b-button-group class="" size="md" >
+                <b-button squared>
+                  ID/Sign-up
+                </b-button>
+                <b-button squared disabled>
+                  Game Related
+                </b-button>
+                <b-button squared>
+                  Bugs/Errors
+                </b-button>
+                <b-button squared>
+                  Website
+                </b-button>
+                <b-button squared disabled>
+                  Billing
+                </b-button>
+              </b-button-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-table
+                id="talble"
+                :items="items"
+                :per-page="perPage"
+                :current-page="currentPage"
+                >
 
-        <div class="w-100 py-3 w-50 justify-content-center d-flex" >
-          <b-input-group class="w-75 text-center align-center">
-            <b-form-input class="tex" size="md" placeholder="Search for what you need.">
+              </b-table>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-pagination class="justify-content-center"
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                >
+              </b-pagination>
+            </b-col>
+          </b-row>
+        </b-container>
 
-            </b-form-input>
-            <b-input-group-append>
-              <b-button class="" squared>
-                Search
-              </b-button>
-            </b-input-group-append>
-          </b-input-group>
-        </div>
-
-        <div class="w-100 pb-3 text-center">
-          <b-button-group class="w-75" size="md">
-            <b-button squared>
-              ID/Sign-up
-            </b-button>
-            <b-button squared disabled>
-              Game Related
-            </b-button>
-            <b-button squared>
-              Bugs/Errors
-            </b-button>
-            <b-button squared>
-              Website
-            </b-button>
-            <b-button squared disabled>
-              Billing
-            </b-button>
-          </b-button-group>
-        </div>
-
-        <!-- ANOTHER -->
-        <div class="py-4 my-4 justify-content-center d-block">
-
-<!--          <b-list-group class="">-->
-<!--            <b-list-group-item class="p-0 m-0 border-0">-->
-<!--              <b-input-group prepend="" append="">-->
-<!--                <b-button class="w-100 border text-left" squared>-->
-
-<!--                </b-button>-->
-<!--              </b-input-group>-->
-<!--              <b-collapse>-->
-
-<!--              </b-collapse>-->
-<!--            </b-list-group-item>-->
-<!--          </b-list-group>-->
-
-          <b-table
-            id="talble"
-            :items="items"
-            :per-page="perPage"
-            :current-page="currentPage"
-            >
-
-          </b-table>
-
-          <b-pagination class="justify-content-center"
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            >
-          </b-pagination>
-        </div>
       </b-col>
     </b-row>
 
