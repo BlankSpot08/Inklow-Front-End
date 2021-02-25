@@ -13,7 +13,7 @@
 
     <b-row class="" align-h="center">
       <b-col class="pb-4" cols="12" md="6">
-        <b-button class="w-100" to="in-progress" size="lg" squared>
+        <b-button class="w-100" @click="goToLink('In-Progress')" size="lg" squared>
           Create Inklow Account
         </b-button>
       </b-col>
@@ -48,6 +48,11 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+  },
+  methods: {
+    goToLink(name) {
+      this.$router.push({name: name})
+    }
   }
 }
 </script>

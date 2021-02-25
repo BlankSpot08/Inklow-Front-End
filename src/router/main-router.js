@@ -10,6 +10,9 @@ import Profile from '@/components/Profile'
 import ProfileHome from '@/components/profile/ProfileHome'
 import ProfileSettings from '@/components/profile/ProfileSettings'
 import SupportHome from "@/components/support/SupportHome";
+import SupportIndex from "@/components/support/index/SupportIndex";
+import SupportWrite from "@/components/support/index/SupportWrite";
+import SupportSend from "@/components/support/index/SupportSend";
 
 Vue.use(Router)
 
@@ -58,9 +61,33 @@ export default new Router({
             ]
         },
         {
-            path: '/Support',
+            path: '/Support/Main',
             name: 'Support',
-            component: SupportHome
+            component: SupportHome,
+            // children: [
+            //     {
+            //         path: 'Index',
+            //         name: 'SupportIndex',
+            //         component: SupportSend
+            //     }
+            // ]
+        },
+        {
+            path: '/Support/Send',
+            name: 'SupportSend',
+            component: SupportSend,
+            children: [
+                {
+                  path: "Index",
+                  name: "SupportIndex",
+                  component: SupportIndex
+                },
+                {
+                    path: "Write",
+                    name: "SupportWrite",
+                    component: SupportWrite
+                }
+            ]
         }
     ]
 })

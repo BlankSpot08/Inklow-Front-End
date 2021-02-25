@@ -98,6 +98,7 @@ export default {
           localStorage.setItem('user', JSON.stringify(user))
 
           this.$store.dispatch('updateLoginStatus', true)
+
           this.$router.push('/')
         }
       }

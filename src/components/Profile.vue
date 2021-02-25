@@ -17,9 +17,9 @@
 
           <b-collapse id="test" is-nav>
             <b-navbar-nav>
-              <b-nav-item to="/MyPage/Home">Account Information</b-nav-item>
-              <b-nav-item to="/MyPage/Settings">Security Center</b-nav-item>
-              <b-nav-item to="/MyPage/Settings">Settings</b-nav-item>
+              <b-nav-item @click="goToLink('ProfileHome')">Account Information</b-nav-item>
+              <b-nav-item >Security Center</b-nav-item>
+              <b-nav-item @click="goToLink('ProfileSettings')">Settings</b-nav-item>
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -50,7 +50,9 @@ export default {
     window.scrollTo(0, 0);
   },
   methods: {
-
+    goToLink(name) {
+      this.$router.push({name: name})
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <b-navbar fixed="top" sticky toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand to="/">
+    <b-navbar-brand @click="goToLink('Home')">
       <h1>Inklow</h1>
     </b-navbar-brand>
 
@@ -8,19 +8,19 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item to="/Communnity">Community</b-nav-item>
-        <b-nav-item to="/About">About</b-nav-item>
-        <b-nav-item to="/Support">Support</b-nav-item>
+        <b-nav-item @click="goToLink('Community')">Community</b-nav-item>
+        <b-nav-item @click="goToLink('About')">About</b-nav-item>
+        <b-nav-item @click="goToLink('Support')">Support</b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav v-if="loginStatus" class="ml-auto" >
-        <b-nav-item to="/MyPage/Home">Profile</b-nav-item>
-        <b-nav-item @click="logout">Logout</b-nav-item>
+        <b-nav-item @click="goToLink('ProfileHome')">Profile</b-nav-item>
+        <b-nav-item @click="handleLogout()">Logout</b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav v-else class="ml-auto">
-        <b-nav-item to="/Member/Register/Main">Sign Up</b-nav-item>
-        <b-nav-item to="/Member/Login">Login</b-nav-item>
+        <b-nav-item @click="goToLink('Register')">Sign Up</b-nav-item>
+        <b-nav-item @click="goToLink('Login')">Login</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>
@@ -50,11 +50,14 @@ export default {
     },
   },
   methods: {
-    logout: function() {
+    handleLogout() {
       AuthService.logout()
 
       this.$store.dispatch('updateLoginStatus', false)
       this.$router.push('/')
+    },
+    goToLink(name) {
+      this.$router.push({name: name})
     }
   },
   created() {
