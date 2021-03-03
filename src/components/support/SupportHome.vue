@@ -145,6 +145,9 @@ export default {
     rows() {
       return this.salads.length
     }
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   }
 }
 </script>

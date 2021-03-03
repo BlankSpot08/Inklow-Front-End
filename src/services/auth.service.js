@@ -3,7 +3,7 @@ import axios from 'axios'
 // const API_URL = ''
 
 class AuthService {
-    login(user) {
+    user_authentication(user) {
         return axios.post('api/user_authentication',
             { username: user.username, password: user.password})
     }
@@ -13,7 +13,7 @@ class AuthService {
         localStorage.removeItem('user')
     }
 
-    register(user) {
+    user_registration(user) {
         return axios.post('api/user_registration', user)
     }
 }

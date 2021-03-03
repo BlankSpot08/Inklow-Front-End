@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     async handleLogin() {
-      const response = await authService.login(this.user)
+      const response = await authService.user_authentication(this.user)
 
       if (response) {
         const token = response.data.jwt

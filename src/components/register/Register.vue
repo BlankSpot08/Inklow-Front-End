@@ -180,7 +180,7 @@ export default {
       this.current_step--;
     },
     handleRegister: async function() {
-      const user = await AuthService.register(this.user)
+      const user = await AuthService.user_registration(this.user)
 
       if (user) {
         console.log(user)
