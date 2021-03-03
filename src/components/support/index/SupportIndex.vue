@@ -101,7 +101,7 @@ export default {
   name: "SupportSend",
   methods: {
     goToSupportWriteLink(categories) {
-      this.$router.push({name: 'SupportWrite', params: { categories: categories}})
+      this.$router.push({name: 'SupportWrite', params: { propsCategories: categories}})
     }
   },
   data() {
@@ -129,7 +129,7 @@ export default {
         {value: 'Lag/Crash', text: 'Lag/Crash'},
       ],
       websiteCategories: [
-        {value: null, text: 'Choose a caregory'},
+        {value: null, text: 'Choose a category'},
         {value: 'Membership Information', text: 'Membership Information'},
         {value: 'Web Storage Related', text: 'Web Storage Related'},
         {value: 'Website Related', text: 'Website Related'},

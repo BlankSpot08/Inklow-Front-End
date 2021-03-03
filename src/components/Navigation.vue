@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import AuthService from "@/services/auth.service"
+import AuthenticationService from "@/services/authentication-service"
 
 export default {
   name: 'Navigation',
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     handleLogout() {
-      AuthService.logout()
+      AuthenticationService.logout()
 
       this.$store.dispatch('updateLoginStatus', false)
       this.$router.push('/')

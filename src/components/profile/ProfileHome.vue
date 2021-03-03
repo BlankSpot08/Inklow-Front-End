@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import User from '@/models/User'
+import { User } from '@/models/model-index'
 
 export default {
   name: "Home",

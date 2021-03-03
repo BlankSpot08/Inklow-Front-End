@@ -104,7 +104,7 @@
 export default {
   name: "SupportWrite",
   props: {
-    categories: Object
+    propsCategories: Object
   },
   methods: {
     handleSubmit() {
@@ -130,6 +130,7 @@ export default {
           "※ Depending on the type of inquiry, there may be additional information collected such as name, date of birth, linkage information, mobile phone number, account number, payment records, automatically generated information, and information identifying the device.\n" +
           "\n" +
           "Matters not specified in this \"Guide to Collection and Use of Personal Information\" are subject to the provisions of the \"Privacy Policy\" of the Company.\n",
+      categories: this.propsCategories
     }
   },
   mounted() {

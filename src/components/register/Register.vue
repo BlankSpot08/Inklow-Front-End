@@ -148,8 +148,8 @@
 <script>
 import RegisterLabel from '@/components/register/RegisterLabel'
 
-import User from '@/models/User'
-import AuthService from '@/services/auth.service'
+import User from '@/models/user'
+import AuthenticationService from '@/services/authentication-service'
 
 export default {
   name: "Register",
@@ -180,7 +180,7 @@ export default {
       this.current_step--;
     },
     handleRegister: async function() {
-      const user = await AuthService.user_registration(this.user)
+      const user = await AuthenticationService.user_registration(this.user)
 
       if (user) {
         console.log(user)

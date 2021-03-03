@@ -68,7 +68,8 @@
 </template>
 
 <script>
-import { authService, userService } from '@/services'
+import { authService } from '@/services/service-index'
+import { UserRepository } from '@/repository/repository-index'
 
 export default {
   name: "Login",
@@ -91,7 +92,7 @@ export default {
       if (response) {
         const token = response.data.jwt
 
-        const user = (await userService.getUser(token)).data
+        const user = (await UserRepository.getUser(token)).data
 
         if (token && user) {
           localStorage.setItem('token', JSON.stringify(token))

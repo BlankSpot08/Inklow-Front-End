@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const API_URL = ''
 
-class AuthService {
+class AuthenticationService {
     user_authentication(user) {
         return axios.post('api/user_authentication',
             { username: user.username, password: user.password})
@@ -18,4 +18,4 @@ class AuthService {
     }
 }
 
-export default new AuthService();
+export default new AuthenticationService();

@@ -112,6 +112,8 @@
 </template>
 
 <script>
+import supportService from '@/services/service-index';
+
 export default {
   name: "SupportHome",
   data() {
@@ -131,6 +133,7 @@ export default {
         { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
         { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' }
       ]
+      // items: supportService.getQuestions()
     }
   },
   methods: {
@@ -148,6 +151,8 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+
+    console.log(supportService.getQuestions())
   }
 }
 </script>
