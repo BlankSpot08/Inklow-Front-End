@@ -1,5 +1,5 @@
-import authService from './authentication-service'
-import userService from './user-service'
+import AuthService from './authentication-service'
+import UserService from './user-service'
 import SupportService from './support-service'
 
-export { authService, userService, SupportService }
+export { AuthService, UserService, SupportService }

@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { authService } from '@/services/service-index'
+import { AuthService } from '@/services/service-index'
 import { UserRepository } from '@/repository/repository-index'
 
 export default {
@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     async handleLogin() {
-      const response = await authService.user_authentication(this.user)
+      const response = await AuthService.user_authentication(this.user)
 
       if (response) {
         const token = response.data.jwt

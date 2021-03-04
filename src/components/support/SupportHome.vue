@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import supportService from '@/services/service-index';
+import { SupportRepository } from '@/repository/repository-index'
 
 export default {
   name: "SupportHome",
@@ -142,6 +142,10 @@ export default {
     // }
     goToLink(name) {
       this.$router.push({name: name})
+    },
+
+    async getQuestions() {
+      return await SupportRepository.getQuestions()
     }
   },
   computed: {
@@ -152,7 +156,9 @@ export default {
   mounted() {
     window.scrollTo(0, 0);
 
-    console.log(supportService.getQuestions())
+    const test = this.getQuestions()
+    console.log(test)
+
   }
 }
 </script>
