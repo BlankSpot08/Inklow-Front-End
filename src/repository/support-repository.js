@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 class SupportRepository {
-    async getQuestions() {
+    getQuestions() {
         return axios.get('api/support/question/getAll');
     }
 }

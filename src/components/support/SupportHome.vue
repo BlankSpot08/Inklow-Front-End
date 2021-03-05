@@ -24,16 +24,16 @@
           </label>
         </div>
 
-        <b-list-group class="p-0 m-0 w-100" v-for="fruit in fruits" :key="fruit">
+        <b-list-group class="p-0 m-0 w-100" v-for="item in items" :key="item.categories">
           <b-list-group-item class="p-0 m-0 border-0">
             <b-input-group prepend="" append="">
-              <b-button class="w-100 border text-left" squared v-b-toggle="'collapse-' + fruit" size="md">
-                {{fruit}}
+              <b-button class="w-100 border text-left" squared v-b-toggle="'collapse-' + item.id" size="md">
+                {{item.question}}
               </b-button>
             </b-input-group>
-            <b-collapse :id="'collapse-' + fruit">
+            <b-collapse :id="'collapse-' + item.id">
               <b-card>
-                {{fruit}}
+                {{item.answer}}
               </b-card>
             </b-collapse>
           </b-list-group-item>
@@ -61,18 +61,18 @@
           </b-row>
 
           <b-row align-h="center">
-            <b-col class="py-3" md="8">
+            <b-col class="py-3 pb-5" md="8">
               <b-button-group class="" size="md" >
-                <b-button squared>
+                <b-button squared @click="pickCategory('Id/Sign-up')">
                   ID/Sign-up
                 </b-button>
                 <b-button squared disabled>
                   Game Related
                 </b-button>
-                <b-button squared>
+                <b-button squared @click="pickCategory('Bugs/Errors')">
                   Bugs/Errors
                 </b-button>
-                <b-button squared>
+                <b-button squared @click="pickCategory('Website')">
                   Website
                 </b-button>
                 <b-button squared disabled>
@@ -84,10 +84,12 @@
           <b-row>
             <b-col>
               <b-table
-                id="talble"
+                id="table"
                 :items="items"
+                :fields="itemsFields"
                 :per-page="perPage"
                 :current-page="currentPage"
+                :filter="searchCategory"
                 >
 
               </b-table>
@@ -97,7 +99,7 @@
             <b-col>
               <b-pagination class="justify-content-center"
                 v-model="currentPage"
-                :total-rows="rows"
+                :total-rows="items.length"
                 :per-page="perPage"
                 >
               </b-pagination>
@@ -118,47 +120,33 @@ export default {
   name: "SupportHome",
   data() {
     return {
-      fruits: ['sad', 'happy', 'angery', 'not_angery', 'super_sad_boi'],
       perPage: 5,
       currentPage: 1,
-      salads: ['sad', 'kangkong', 'apoy', 'tubig', 'water', 'aqua', 'mamma', 'mia', 'oh_well', 'hihi', 'hohhoo_mofos'],
-      items: [
-        { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 3, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 4, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' }
-      ]
-      // items: supportService.getQuestions()
+      itemsFields: ['category', 'question', 'answer'],
+      items: this.getQuestions,
+      testing: [ 'aw', 'tsu', 'weh', 'di', 'nga', 'nganga', 'payo' ],
+      searchCategory: ''
     }
   },
   methods: {
-    // async handleSubmittingInquiry() {
-    //   this.$router.push('/Support')
-    // }
     goToLink(name) {
       this.$router.push({name: name})
     },
-
     async getQuestions() {
-      return await SupportRepository.getQuestions()
+      const test = await SupportRepository.getQuestions();
+
+      return test.data;
+    },
+    pickCategory(category) {
+      this.searchCategory = category
     }
   },
   computed: {
-    rows() {
-      return this.salads.length
-    }
   },
-  mounted() {
-    window.scrollTo(0, 0);
+  async mounted() {
+    window.scrollTo(0, 0)
 
-    const test = this.getQuestions()
-    console.log(test)
-
+    this.items = await this.getQuestions()
   }
 }
 </script>
