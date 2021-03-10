@@ -40,7 +40,7 @@
           </b-row>
 
           <b-row align-h="center">
-            <b-col class="border-top my-5" md="10">
+            <b-col class="border-top mt-5" md="10">
               <div class="text-center py-5">
                 <h5>
                   You need to login to submit inquiries about the following issues.
@@ -100,8 +100,10 @@
 export default {
   name: "SupportSend",
   methods: {
-    goToSupportWriteLink(categories) {
-      this.$router.push({name: 'SupportWrite', params: { propsCategories: categories}})
+    goToSupportWriteLink(category) {
+      localStorage.setItem('inquiryCategory', JSON.stringify(category))
+
+      this.$router.push(  { name: 'SupportWrite' })
     }
   },
   data() {

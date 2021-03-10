@@ -36,36 +36,6 @@
                 </b-form-group>
               </b-col>
             </b-row>
-
-            <b-row>
-              <b-col>
-                <b-container class="py-3">
-                  <b-row>
-                    <label class="h5" size="">
-                      Attach Files
-                    </label>
-                  </b-row>
-                  <b-row>
-                    <b-col>
-                      <b-form-file>
-                      </b-form-file>
-                    </b-col>
-                    <b-col>
-                      <b-form-file>
-                      </b-form-file>
-                    </b-col>
-                    <b-col>
-                      <b-form-file>
-                      </b-form-file>
-                    </b-col>
-                    <b-col>
-                      <b-form-file>
-                      </b-form-file>
-                    </b-col>
-                  </b-row>
-                </b-container>
-              </b-col>
-            </b-row>
           </b-container>
         </b-col>
       </b-row>
@@ -103,9 +73,6 @@
 <script>
 export default {
   name: "SupportWrite",
-  props: {
-    propsCategories: Object
-  },
   methods: {
     handleSubmit() {
 
@@ -130,7 +97,7 @@ export default {
           "※ Depending on the type of inquiry, there may be additional information collected such as name, date of birth, linkage information, mobile phone number, account number, payment records, automatically generated information, and information identifying the device.\n" +
           "\n" +
           "Matters not specified in this \"Guide to Collection and Use of Personal Information\" are subject to the provisions of the \"Privacy Policy\" of the Company.\n",
-      categories: this.propsCategories
+      categories: JSON.parse(localStorage.getItem('inquiryCategory'))
     }
   },
   mounted() {

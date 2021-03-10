@@ -17,8 +17,6 @@ export default {
     Footer
   },
   created() {
-    console.log(this.$store.state.loginStatus)
-
   }
 }
 </script>

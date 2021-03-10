@@ -61,8 +61,6 @@ export default {
     }
   },
   created() {
-    console.log(localStorage.getItem('user'))
-    console.log(this.$store.state.loginStatus)
   }
 }
 </script>

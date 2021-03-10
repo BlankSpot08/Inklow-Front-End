@@ -86,7 +86,6 @@ export default new Router({
                     path: "Write",
                     name: "SupportWrite",
                     component: SupportWrite,
-                    props: true
                 }
             ]
         }
