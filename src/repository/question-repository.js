@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-class SupportRepository {
+class QuestionRepository {
     getQuestions() {
         return axios.get('api/support/question/getAll')
     }
@@ -16,10 +16,12 @@ class SupportRepository {
     }
 
     getCategorizedQuestions(category) {
-        return axios.post('api/support/question/getAll/categorizedBy', null, { params: {
-            category
-            } })
+        return axios.post('api/support/question/getAll/categorizedBy', null, {
+            params: {
+                category
+            }
+        })
     }
 }
 
-export default new SupportRepository();
+export default new QuestionRepository();

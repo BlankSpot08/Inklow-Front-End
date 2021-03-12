@@ -97,11 +97,14 @@ export default {
           "※ Depending on the type of inquiry, there may be additional information collected such as name, date of birth, linkage information, mobile phone number, account number, payment records, automatically generated information, and information identifying the device.\n" +
           "\n" +
           "Matters not specified in this \"Guide to Collection and Use of Personal Information\" are subject to the provisions of the \"Privacy Policy\" of the Company.\n",
-      categories: JSON.parse(localStorage.getItem('inquiryCategory'))
+      categories: this.$store.getters.getSupportCategory
     }
   },
   mounted() {
     window.scrollTo(0, 0);
+
+    console.log(this.categories)
+    console.log([{ name: 'sad' }, {name:' yay'}])
   }
 }
 </script>

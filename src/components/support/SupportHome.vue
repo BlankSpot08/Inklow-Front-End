@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import { SupportRepository } from '@/repository/repository-index'
+import { QuestionRepository } from '@/repository/repository-index'
 
 export default {
   name: "SupportHome",
@@ -145,18 +145,18 @@ export default {
       this.$router.push({name: name})
     },
     async getQuestions() {
-      const questions = await SupportRepository.getQuestions()
+      const questions = await QuestionRepository.getQuestions()
 
       this.questions = questions.data
     },
     async getFAQ() {
-      const FAQ = await SupportRepository.getFAQ()
+      const FAQ = await QuestionRepository.getFAQ()
 
       this.FAQ = FAQ.data
     },
     async getFilteredQuestions(filter) {
       if (this.questionSearch) {
-        const questions = await SupportRepository.getFilteredQuestions(filter)
+        const questions = await QuestionRepository.getFilteredQuestions(filter)
 
         this.questions = questions.data
 
@@ -165,7 +165,7 @@ export default {
       }
     },
     async getCategorizedQuestions(category) {
-      const questions = await SupportRepository.getCategorizedQuestions(category)
+      const questions = await QuestionRepository.getCategorizedQuestions(category)
 
       this.questions = questions.data
     }

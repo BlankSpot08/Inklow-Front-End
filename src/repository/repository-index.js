@@ -1,4 +1,5 @@
 import UserRepository from "@/repository/user-repository";
-import SupportRepository from "@/repository/support-repository";
+import QuestionRepository from "@/repository/question-repository";
+import InquiryRepository from '@/repository/inquiry-repository';
 
-export { UserRepository, SupportRepository }
+export { UserRepository, QuestionRepository, InquiryRepository }

@@ -29,11 +29,11 @@
           <b-row align-h="center">
             <b-col class="" md="10">
               <b-button-group class="bg-secondary w-100" size="lg">
-                <b-button class="w-100" @click="goToSupportWriteLink(appealCategories)" squared>
-                  Compromised Account/Appeal
+                <b-button class="w-100" @click="goToSupportWriteLink(compromisedAccountAppeal)" squared>
+                  {{ compromisedAccountAppeal }}
                 </b-button>
-                <b-button class="w-100" @click="goToSupportWriteLink(otherCategories)" squared>
-                  Other
+                <b-button class="w-100" @click="goToSupportWriteLink(other)"  squared>
+                  {{ other }}
                 </b-button>
               </b-button-group>
             </b-col>
@@ -52,14 +52,14 @@
           <b-row align-h="center">
             <b-col md="10">
               <b-button-group class="w-100" size="lg">
-                <b-button class="w-100" squared disabled>
-                  Game
+                <b-button class="w-100" @click="goToSupportWriteLink(game)" squared disabled>
+                  {{ game }}
                 </b-button>
-                <b-button class="w-100" squared disabled>
-                  In-Game Recovery
+                <b-button class="w-100" @click="goToSupportWriteLink(inGameRecovery)" squared disabled>
+                  {{ inGameRecovery }}
                 </b-button>
-                <b-button class="w-100" @click="goToSupportWriteLink(technicalIssuesCategories)" squared>
-                  Technical Issues
+                <b-button class="w-100" @click="goToSupportWriteLink(technicalIssues)" squared>
+                  {{ technicalIssues }}
                 </b-button>
               </b-button-group>
             </b-col>
@@ -68,14 +68,14 @@
           <b-row align-h="center">
             <b-col md="10">
               <b-button-group class="w-100" size="lg">
-                <b-button class="w-100" @click="goToSupportWriteLink(reportRestrictionsCategories)" squared>
-                  Report/Restriction
+                <b-button class="w-100" @click="goToSupportWriteLink(reportRestriction)" squared>
+                  {{ reportRestriction }}
                 </b-button>
-                <b-button class="w-100" squared disabled>
-                  Billing
+                <b-button class="w-100" @click="goToSupportWriteLink(billing)" squared disabled>
+                  {{ billing }}
                 </b-button>
-                <b-button class="w-100" @click="goToSupportWriteLink(websiteCategories)" squared>
-                  Website
+                <b-button class="w-100" @click="goToSupportWriteLink(website)" squared>
+                  {{ website }}
                 </b-button>
               </b-button-group>
             </b-col>
@@ -84,8 +84,8 @@
           <b-row align-h="center">
             <b-col class="" md="10">
               <b-button-group class="w-100" size="lg">
-                <b-button class="w-50" squared disabled>
-                  Event/Coupon
+                <b-button class="w-50" @click="goToSupportWriteLink(eventCoupon)" squared disabled>
+                  {{ eventCoupon }}
                 </b-button>
               </b-button-group>
             </b-col>
@@ -97,49 +97,40 @@
 </template>
 
 <script>
+import { InquiryRepository } from '@/repository/repository-index'
+
 export default {
   name: "SupportSend",
   methods: {
-    goToSupportWriteLink(category) {
-      localStorage.setItem('inquiryCategory', JSON.stringify(category))
+    async goToSupportWriteLink(category) {
+      const inquiry = await InquiryRepository.getInquiryByName(category)
 
-      this.$router.push(  { name: 'SupportWrite' })
-    }
+      await this.$store.dispatch('updateSupportCategory', inquiry.data)
+
+      console.log(this.$store.state.supportCategory)
+      console.log(this.$store.getters.getSupportCategory)
+
+      await this.$router.push({name: 'SupportWrite'})
+    },
   },
   data() {
     return {
-      appealCategories: [
-        {value: null, text: 'Choose a category'},
-        {value: 'Compromised Account', text: 'Compromised Account'},
-        {value: 'Appeal Restriction', text: 'Appeal Restriction'}
-      ],
-      otherCategories: [
-        {value: null, text: 'Choose a category' },
-        {value: 'Other Inquiries', text: 'Other Inquiries' }
-      ],
-      reportRestrictionsCategories: [
-        {value: null, text: 'Choose a category'},
-        {value: 'System Exploitation', text: 'Report System Exploitation'},
-        {value: 'Bots/Macros', text: 'Report Bots/Macros'},
-        {value: 'User Behavior', text: 'Report User Behavior'}
-      ],
-      technicalIssuesCategories: [
-        {value: null, text: 'Choose a category'},
-        {value: 'Unable to Install', text: 'Unable to Install'},
-        {value: 'Unable to Update', text: 'Unable to Update'},
-        {value: 'Cannot Run', text: 'Cannot Run'},
-        {value: 'Lag/Crash', text: 'Lag/Crash'},
-      ],
-      websiteCategories: [
-        {value: null, text: 'Choose a category'},
-        {value: 'Membership Information', text: 'Membership Information'},
-        {value: 'Web Storage Related', text: 'Web Storage Related'},
-        {value: 'Website Related', text: 'Website Related'},
-      ]
+      other: 'Other',
+      compromisedAccountAppeal: 'Compromised Account/Appeal',
+      game: 'Game',
+      inGameRecovery: 'In-Game Recovery',
+      technicalIssues: 'Technical Issues',
+      reportRestriction: 'Report/Restriction',
+      billing: 'Billing',
+      website: 'Website',
+      eventCoupon: 'Event/Coupon'
     }
   },
-  mounted() {
+  async mounted() {
     window.scrollTo(0, 0);
+
+  },
+  created() {
   }
 }
 
