@@ -9,10 +9,13 @@ import RegisterMain from '@/components/register/RegisterHome'
 import Profile from '@/components/Profile'
 import ProfileHome from '@/components/profile/ProfileHome'
 import ProfileSettings from '@/components/profile/ProfileSettings'
-import SupportHome from "@/components/support/SupportHome";
-import SupportIndex from "@/components/support/index/SupportIndex";
-import SupportWrite from "@/components/support/index/SupportWrite";
-import SupportSend from "@/components/support/index/SupportSend";
+import SupportHome from "@/components/support/SupportHome"
+import SupportIndex from "@/components/support/index/SupportIndex"
+import SupportWrite from "@/components/support/index/SupportWrite"
+import SupportSend from "@/components/support/index/SupportSend"
+import SupportInquiry from "@/components/support/index/SupportInquiry"
+
+import { store } from '@/store/index-store'
 
 Vue.use(Router)
 
@@ -47,6 +50,16 @@ export default new Router({
             path: '/MyPage',
             name: 'Profile',
             component: Profile,
+            beforeEnter(to, from, next) {
+                if (!store.state.loginStatus) {
+                    next({name: 'Login'})
+                }
+
+                else {
+                    next()
+                }
+
+            },
             children: [
                 {
                     path: 'Home',
@@ -64,13 +77,26 @@ export default new Router({
             path: '/Support/Main',
             name: 'Support',
             component: SupportHome,
-            // children: [
-            //     {
-            //         path: 'Index',
-            //         name: 'SupportIndex',
-            //         component: SupportSend
-            //     }
-            // ]
+        },
+        {
+            path: '/Support/Inquiries',
+            name: 'SupportInquiry',
+            component: SupportInquiry,
+            beforeEnter(to, from, next) {
+                if (!store.state.loginStatus) {
+                    if (confirm('Do you want to go to the login page?')) {
+                        next({name: 'Login'})
+                    }
+                }
+
+                else {
+                    next()
+                }
+
+                console.log(next)
+                console.log(from)
+                console.log(to)
+            }
         },
         {
             path: '/Support/Send',
@@ -86,6 +112,27 @@ export default new Router({
                     path: "Write",
                     name: "SupportWrite",
                     component: SupportWrite,
+                    beforeEnter(to, from, next)  {
+                        const category = to.query['category']
+
+                        const unprotected = ['Compromised Account/Appeal', 'Other']
+
+                        if (unprotected.includes(category)) {
+                            next()
+                        }
+
+                        else {
+                            if (!store.state.loginStatus) {
+                                if (confirm('Do you want to go to the login page?')) {
+                                    next({name: 'Login'})
+                                }
+                            }
+
+                            else {
+                                next();
+                            }
+                        }
+                    }
                 }
             ]
         }

@@ -52,13 +52,13 @@
           <b-row align-h="center">
             <b-col md="10">
               <b-button-group class="w-100" size="lg">
-                <b-button class="w-100" @click="goToSupportWriteLink(game)" squared disabled>
+                <b-button class="w-100" @click="goToProtectedSupportWriteLink(game)" squared disabled>
                   {{ game }}
                 </b-button>
-                <b-button class="w-100" @click="goToSupportWriteLink(inGameRecovery)" squared disabled>
+                <b-button class="w-100" @click="goToProtectedSupportWriteLink(inGameRecovery)" squared disabled>
                   {{ inGameRecovery }}
                 </b-button>
-                <b-button class="w-100" @click="goToSupportWriteLink(technicalIssues)" squared>
+                <b-button class="w-100" @click="goToProtectedSupportWriteLink(technicalIssues)" squared>
                   {{ technicalIssues }}
                 </b-button>
               </b-button-group>
@@ -68,13 +68,13 @@
           <b-row align-h="center">
             <b-col md="10">
               <b-button-group class="w-100" size="lg">
-                <b-button class="w-100" @click="goToSupportWriteLink(reportRestriction)" squared>
+                <b-button class="w-100" @click="goToProtectedSupportWriteLink(reportRestriction)" squared>
                   {{ reportRestriction }}
                 </b-button>
-                <b-button class="w-100" @click="goToSupportWriteLink(billing)" squared disabled>
+                <b-button class="w-100" @click="goToProtectedSupportWriteLink(billing)" squared disabled>
                   {{ billing }}
                 </b-button>
-                <b-button class="w-100" @click="goToSupportWriteLink(website)" squared>
+                <b-button class="w-100" @click="goToProtectedSupportWriteLink(website)" squared>
                   {{ website }}
                 </b-button>
               </b-button-group>
@@ -84,7 +84,7 @@
           <b-row align-h="center">
             <b-col class="" md="10">
               <b-button-group class="w-100" size="lg">
-                <b-button class="w-50" @click="goToSupportWriteLink(eventCoupon)" squared disabled>
+                <b-button class="w-50" @click="goToProtectedSupportWriteLink(eventCoupon)" squared disabled>
                   {{ eventCoupon }}
                 </b-button>
               </b-button-group>
@@ -97,21 +97,15 @@
 </template>
 
 <script>
-import { InquiryRepository } from '@/repository/repository-index'
-
 export default {
   name: "SupportSend",
   methods: {
-    async goToSupportWriteLink(category) {
-      const inquiry = await InquiryRepository.getInquiryByName(category)
-
-      await this.$store.dispatch('updateSupportCategory', inquiry.data)
-
-      console.log(this.$store.state.supportCategory)
-      console.log(this.$store.getters.getSupportCategory)
-
-      await this.$router.push({name: 'SupportWrite'})
+    goToSupportWriteLink(category) {
+      this.$router.push({name: 'SupportWrite', query: { category: category }})
     },
+    goToProtectedSupportWriteLink(category) {
+      this.goToSupportWriteLink(category)
+    }
   },
   data() {
     return {
@@ -128,7 +122,11 @@ export default {
   },
   async mounted() {
     window.scrollTo(0, 0);
-
+  },
+  computed: {
+    loginStatus() {
+      return this.$store.state.loginStatus
+    }
   },
   created() {
   }

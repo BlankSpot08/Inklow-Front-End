@@ -58,7 +58,7 @@
 
             <b-row align-h="center">
               <b-col md="4">
-                <b-button class="w-100" type="submit" size="lg" squared>
+                <b-button class="w-100" type="submit" size="lg"  squared>
                   Submit
                 </b-button>
               </b-col>
@@ -71,15 +71,30 @@
 </template>
 
 <script>
+import { InquiryRepository } from '@/repository/repository-index'
+
 export default {
   name: "SupportWrite",
   methods: {
     handleSubmit() {
 
+    },
+    async getInquiryCategories(inquiry) {
+      const inquiryCategories = await InquiryRepository.getInquiryCategoriesByName(inquiry)
+
+      this.categories = inquiryCategories
+
+      return this.categories
     }
   },
   data() {
     return {
+      inquiry: {
+        category: null,
+        email: '',
+        title: '',
+        details: ''
+      },
       selected: null,
       privacyPolicy: "Terms and Conditions:\n" +
           "The personal data is collected in order to improve or better the services rendered to you, the player, from Pearl Abyss. By using this service, you agree to the collection and use of information in accordance with this policy.\n" +
@@ -97,14 +112,14 @@ export default {
           "※ Depending on the type of inquiry, there may be additional information collected such as name, date of birth, linkage information, mobile phone number, account number, payment records, automatically generated information, and information identifying the device.\n" +
           "\n" +
           "Matters not specified in this \"Guide to Collection and Use of Personal Information\" are subject to the provisions of the \"Privacy Policy\" of the Company.\n",
-      categories: this.$store.getters.getSupportCategory
+      categories: []
     }
   },
   mounted() {
     window.scrollTo(0, 0);
-
-    console.log(this.categories)
-    console.log([{ name: 'sad' }, {name:' yay'}])
+  },
+  created() {
+    this.getInquiryCategories(this.$route.query.category)
   }
 }
 </script>

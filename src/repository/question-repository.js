@@ -2,21 +2,21 @@ import axios from 'axios'
 
 class QuestionRepository {
     getQuestions() {
-        return axios.get('api/support/question/getAll')
+        return axios.get('api/question/getAll')
     }
 
     getFAQ() {
-        return axios.get('api/support/question/getFAQ')
+        return axios.get('api/question/getFAQ')
     }
 
     getFilteredQuestions(filter) {
-        return axios.post('api/support/question/getAll/filteredBy', null, { params: {
+        return axios.post('api/question/getAll/filteredBy', null, { params: {
             filter
             } })
     }
 
     getCategorizedQuestions(category) {
-        return axios.post('api/support/question/getAll/categorizedBy', null, {
+        return axios.post('api/question/getAll/categorizedBy', null, {
             params: {
                 category
             }

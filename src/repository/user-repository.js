@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 class UserRepository {
-    async getUser(token) {
+    getUser(token) {
         this.authHeader = {'Authorization': 'Bearer ' + token}
 
         return axios.post('api/user/get ', null, {

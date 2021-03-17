@@ -2,7 +2,7 @@
   <b-container class="py-4 bg-white">
     <b-row class="" align-h="center">
       <b-col class="p-0" cols="" md="5">
-          <b-button class="w-100 h-100" size="lg" squared>
+          <b-button @click="goToLink('SupportInquiry')" class="w-100 h-100" size="lg" squared>
             My Inquiries
           </b-button>
       </b-col>
@@ -110,11 +110,12 @@
           </b-row>
           <b-row>
             <b-col>
-              <b-pagination class="justify-content-center"
-                            v-model="currentPage"
-                            :total-rows="questions.length"
-                            :per-page="perPage"
-                            aria-controls="test"
+              <b-pagination
+                  class="justify-content-center"
+                  v-model="currentPage"
+                  :total-rows="questions.length"
+                  :per-page="perPage"
+                  aria-controls="test"
                 >
               </b-pagination>
             </b-col>
@@ -168,6 +169,11 @@ export default {
       const questions = await QuestionRepository.getCategorizedQuestions(category)
 
       this.questions = questions.data
+    }
+  },
+  computed: {
+    loginStatus() {
+      return this.$store.state.loginStatus
     }
   },
   mounted() {
