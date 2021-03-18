@@ -1,6 +1,7 @@
 import axios from "axios";
 
 class InquiryRepository {
+    // converted to be compatible to input select
     async getInquiryCategoriesByName(name) {
         const request = await axios.post('api/inquiry/get', null, { params: { name } });
 

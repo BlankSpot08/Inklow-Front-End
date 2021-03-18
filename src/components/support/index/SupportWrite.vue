@@ -57,7 +57,15 @@
             </b-row>
 
             <b-row align-h="center">
-              <b-col md="4">
+              <vue-recaptcha sitekey='6LeCL4UaAAAAAMolc8ONk-34kJJNgBnDt_UKGPzH'>
+                <b-button>
+                  Click me
+                </b-button>
+              </vue-recaptcha>
+            </b-row>
+
+            <b-row align-h="center">
+              <b-col class="py-3" md="4">
                 <b-button class="w-100" type="submit" size="lg"  squared>
                   Submit
                 </b-button>
@@ -71,12 +79,16 @@
 </template>
 
 <script>
+import VueRecaptcha from 'vue-recaptcha'
 import { InquiryRepository, ReportInquiryRepository, UserReportInquiryRepository } from '@/repository/repository-index'
 import { UserRepository } from '@/repository/repository-index'
 import { UserReportInquiry } from '@/models/model-index'
 
 export default {
   name: "SupportWrite",
+  components: {
+    VueRecaptcha
+  },
   methods: {
     async handleSubmit() {
       const reportInquiry = await ReportInquiryRepository.addReportInquiryRepository(this.reportInquiry)

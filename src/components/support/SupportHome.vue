@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { QuestionRepository } from '@/repository/repository-index'
+import { QuestionService } from '@/services/service-index'
 
 export default {
   name: "SupportHome",
@@ -136,7 +136,7 @@ export default {
       perPage: 5,
       currentPage: 1,
       questionTableFields: ['category', 'question', 'answer'],
-      questions: this.getQuestions(),
+      questions: this.getQuestions,
       FAQ: this.getFAQ(),
       questionSearch: '',
     }
@@ -145,19 +145,21 @@ export default {
     goToLink(name) {
       this.$router.push({name: name})
     },
-    async getQuestions() {
-      const questions = await QuestionRepository.getQuestions()
+    getQuestions() {
+      const questions = QuestionService.getQuestions()
 
-      this.questions = questions.data
+      return questions
     },
     async getFAQ() {
-      const FAQ = await QuestionRepository.getFAQ()
+      const FAQ = await QuestionService.getFAQ()
 
-      this.FAQ = FAQ.data
+      this.FAQ = FAQ
+
+      return FAQ
     },
     async getFilteredQuestions(filter) {
       if (this.questionSearch) {
-        const questions = await QuestionRepository.getFilteredQuestions(filter)
+        const questions = await QuestionService.getFilteredQuestions(filter)
 
         this.questions = questions.data
 
@@ -166,7 +168,7 @@ export default {
       }
     },
     async getCategorizedQuestions(category) {
-      const questions = await QuestionRepository.getCategorizedQuestions(category)
+      const questions = await QuestionService.getCategorizedQuestions(category)
 
       this.questions = questions.data
     }
@@ -175,6 +177,8 @@ export default {
     loginStatus() {
       return this.$store.state.loginStatus
     }
+  },
+  async created() {
   },
   mounted() {
     window.scrollTo(0, 0)
