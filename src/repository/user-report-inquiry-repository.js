@@ -1,9 +1,9 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 class UserReportInquiryRepository {
-    // addUserReportInquiryRepository(reportInquiry) {
-    //     const temp = axios.post('api/')
-    // }
+    addUserReportInquiryRepository(reportInquiry) {
+        return axios.post('api/user_report_inquiry/add', reportInquiry)
+    }
 }
 
-export default new UserReportInquiryRepository();
+export default new UserReportInquiryRepository()

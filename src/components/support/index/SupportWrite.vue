@@ -16,14 +16,14 @@
 
             <b-row>
               <b-col>
-                <b-form-select class="w-100 mb-3" v-model="selected" :options="categories" size="lg" required>
+                <b-form-select class="w-100 mb-3" v-model="reportInquiry.category" :options="categories" size="lg" required>
                 </b-form-select>
 
-                <b-input class="w-100 mb-3" placeholder="Inquiry Title" type="text" size="lg" required>
+                <b-input class="w-100 mb-3" v-model="reportInquiry.title" placeholder="Inquiry Title" type="text" size="lg" required>
                 </b-input>
               </b-col>
               <b-col>
-                <b-input class="w-100 mb-3" placeholder="Email" size="lg" required>
+                <b-input class="w-100 mb-3" v-model="reportInquiry.email" placeholder="Email" size="lg" required>
                 </b-input>
               </b-col>
             </b-row>
@@ -31,7 +31,7 @@
             <b-row>
               <b-col>
                 <b-form-group label="Details" label-size="lg">
-                  <b-textarea placeholder="We can get back to you faster if you provide us with more details." rows="7" no-resize>
+                  <b-textarea v-model="reportInquiry.details" placeholder="We can get back to you faster if you provide us with more details." rows="7" no-resize>
                   </b-textarea>
                 </b-form-group>
               </b-col>
@@ -46,7 +46,7 @@
             <b-row align-h="">
               <b-col class="py-3" md="">
                 <b-input-group class="">
-                  <b-form-checkbox class="w-100 py-1 pl-5 border border-bottom-0" name="sad" size="lg" required>
+                  <b-form-checkbox class="w-100 py-1 pl-5 border border-bottom-0" v-model="privacy" name="sad" size="lg" required>
                     Privacy Policy
                   </b-form-checkbox>
 
@@ -72,14 +72,33 @@
 
 <script>
 import { InquiryRepository, ReportInquiryRepository, UserReportInquiryRepository } from '@/repository/repository-index'
+import { UserRepository } from '@/repository/repository-index'
+import { UserReportInquiry } from '@/models/model-index'
 
 export default {
   name: "SupportWrite",
   methods: {
-    handleSubmit() {
-      console.log(ReportInquiryRepository)
-      console.log(UserReportInquiryRepository)
+    async handleSubmit() {
+      const reportInquiry = await ReportInquiryRepository.addReportInquiryRepository(this.reportInquiry)
+      const reportInquiryData = reportInquiry.data
 
+      const reportInquiryTemp = await ReportInquiryRepository.getReportInquiryRepository(reportInquiryData.title)
+      const reportInquiryTempData = reportInquiryTemp.data
+
+      const token = JSON.parse(localStorage.getItem('token'))
+      if (token) {
+        const user = await UserRepository.getUser(token)
+
+        if (user) {
+          const userData = user.data
+
+          const userReportInquiry = new UserReportInquiry(userData.id, reportInquiryTempData.id)
+
+          await UserReportInquiryRepository.addUserReportInquiryRepository(userReportInquiry)
+        }
+      }
+
+      this.reset()
     },
     async getInquiryCategories(inquiry) {
       const inquiryCategories = await InquiryRepository.getInquiryCategoriesByName(inquiry)
@@ -87,17 +106,30 @@ export default {
       this.categories = inquiryCategories
 
       return this.categories
+    },
+    reset() {
+      this.reportInquiry = {
+        category: null,
+        email: '',
+        title: '',
+        details: ''
+      }
+
+      this.privacy = false
+
+      window.scrollTo(0, 0)
     }
   },
   data() {
     return {
-      inquiry: {
+      reportInquiry: {
         category: null,
         email: '',
         title: '',
         details: ''
       },
       selected: null,
+      privacy: false,
       privacyPolicy: "Terms and Conditions:\n" +
           "The personal data is collected in order to improve or better the services rendered to you, the player, from Pearl Abyss. By using this service, you agree to the collection and use of information in accordance with this policy.\n" +
           "\n" +
@@ -118,7 +150,7 @@ export default {
     }
   },
   mounted() {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
   },
   created() {
     this.getInquiryCategories(this.$route.query.category)

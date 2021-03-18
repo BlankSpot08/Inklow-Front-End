@@ -1,8 +1,5 @@
 import axios from 'axios'
 
-import { store } from '@/store/index-store'
-import { router } from '@/router/router-index'
-
 import { UserRepository } from "@/repository/repository-index";
 
 class AuthenticationService {
@@ -18,21 +15,11 @@ class AuthenticationService {
                 localStorage.setItem('token', JSON.stringify(token))
                 localStorage.setItem('user', JSON.stringify(user))
 
-                await store.dispatch('updateLoginStatus', true)
-
-                const route = router.currentRoute
-
-                const redirect = route.query['redirect']
-
-                if (!redirect) {
-                    await router.push('/')
-                }
-
-                else {
-                    await router.push(redirect)
-                }
+                return user
             }
         }
+
+        return undefined
     }
 
     logout() {

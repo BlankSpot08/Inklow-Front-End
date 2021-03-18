@@ -86,7 +86,22 @@ export default {
   },
   methods: {
     handleLogin() {
-      AuthService.user_authentication(this.user)
+      const authentication = AuthService.user_authentication(this.user)
+
+      if (authentication) {
+        this.$store.dispatch('updateLoginStatus', true)
+
+        const route = this.$router.currentRoute
+
+        const redirect = route.query['redirect']
+        if (!redirect) {
+          this.$router.push('/')
+        }
+
+        else {
+          this.$router.push(redirect)
+        }
+      }
     },
   },
   created() {
