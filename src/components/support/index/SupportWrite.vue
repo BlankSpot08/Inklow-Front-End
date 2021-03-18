@@ -46,7 +46,7 @@
             <b-row align-h="">
               <b-col class="py-3" md="">
                 <b-input-group class="">
-                  <b-form-checkbox class="w-100 py-1 pl-5 border border-bottom-0" size="lg" required>
+                  <b-form-checkbox class="w-100 py-1 pl-5 border border-bottom-0" name="sad" size="lg" required>
                     Privacy Policy
                   </b-form-checkbox>
 
@@ -71,12 +71,14 @@
 </template>
 
 <script>
-import { InquiryRepository } from '@/repository/repository-index'
+import { InquiryRepository, ReportInquiryRepository, UserReportInquiryRepository } from '@/repository/repository-index'
 
 export default {
   name: "SupportWrite",
   methods: {
     handleSubmit() {
+      console.log(ReportInquiryRepository)
+      console.log(UserReportInquiryRepository)
 
     },
     async getInquiryCategories(inquiry) {

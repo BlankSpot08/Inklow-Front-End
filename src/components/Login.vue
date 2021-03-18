@@ -69,7 +69,6 @@
 
 <script>
 import { AuthService } from '@/services/service-index'
-import { UserRepository } from '@/repository/repository-index'
 
 export default {
   name: "Login",
@@ -86,23 +85,8 @@ export default {
     window.scrollTo(0, 0);
   },
   methods: {
-    async handleLogin() {
-      const response = await AuthService.user_authentication(this.user)
-
-      if (response) {
-        const token = response.data.jwt
-
-        const user = (await UserRepository.getUser(token)).data
-
-        if (token && user) {
-          localStorage.setItem('token', JSON.stringify(token))
-          localStorage.setItem('user', JSON.stringify(user))
-
-          this.$store.dispatch('updateLoginStatus', true)
-
-          this.$router.push('/')
-        }
-      }
+    handleLogin() {
+      AuthService.user_authentication(this.user)
     },
   },
   created() {

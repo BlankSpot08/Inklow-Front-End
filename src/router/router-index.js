@@ -1,4 +1,4 @@
-import Router from './main-router'
+import router from './main-router'
 import RouterUtil from './router-util'
 
-export { Router, RouterUtil }
+export { router, RouterUtil }

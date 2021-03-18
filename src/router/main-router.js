@@ -52,13 +52,12 @@ export default new Router({
             component: Profile,
             beforeEnter(to, from, next) {
                 if (!store.state.loginStatus) {
-                    next({name: 'Login'})
+                    next({ name: 'Login'} )
                 }
 
                 else {
                     next()
                 }
-
             },
             children: [
                 {
@@ -85,17 +84,13 @@ export default new Router({
             beforeEnter(to, from, next) {
                 if (!store.state.loginStatus) {
                     if (confirm('Do you want to go to the login page?')) {
-                        next({name: 'Login'})
+                        next({name: 'Login', query: { redirect: from.path }})
                     }
                 }
 
                 else {
                     next()
                 }
-
-                console.log(next)
-                console.log(from)
-                console.log(to)
             }
         },
         {
@@ -124,7 +119,7 @@ export default new Router({
                         else {
                             if (!store.state.loginStatus) {
                                 if (confirm('Do you want to go to the login page?')) {
-                                    next({name: 'Login'})
+                                    next({name: 'Login', query: { redirect: from.path }})
                                 }
                             }
 
