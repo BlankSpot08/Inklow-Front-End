@@ -10,5 +10,4 @@ export {
     InquiryRepository,
     UserReportInquiryRepository,
     ReportInquiryRepository
-
 }

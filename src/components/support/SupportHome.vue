@@ -24,14 +24,12 @@
           </label>
         </div>
 
-        <b-list-group class="p-0 m-0 w-100" v-for="question in FAQ" v-bind:key="question.id" v-bind:item="question">
-          <b-list-group-item class="p-0 m-0 border-0">
-            <b-input-group prepend="" append="">
-              <b-button class="w-100 border text-left" squared v-b-toggle="'collapse-' + question.id" size="md">
-                [ {{question.category}} ] {{question.question}}
-              </b-button>
-            </b-input-group>
-            <b-collapse :id="'collapse-' + question.id">
+        <b-list-group class="p-0 m-0 w-100" v-for="question in FAQ" v-bind:key="question.id">
+          <b-list-group-item class="p-0 m-0 border-0" v-b-toggle="'faq-collapse-' + question.id">
+            <div class="border py-2 px-2">
+              [ {{ question.category }} ] {{ question.question }}
+            </div>
+            <b-collapse :id="'faq-collapse-' + question.id">
               <b-card>
                 <b-container>
                   <b-row>
@@ -97,15 +95,34 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col>
-              <b-table
-                id="table"
-                :items="questions"
-                :fields="questionTableFields"
-                :per-page="perPage"
-                :current-page="currentPage"
-                >
-              </b-table>
+            <b-col class="pb-4">
+              <b-list-group v-for="(item) in paginatedQuestions" v-bind:key="item.id">
+                <b-list-group-item class="m-0 p-0 border-0" v-b-toggle="'questions-collapse-' + item.id">
+                  <div class="border py-2 px-2">
+                    [ {{ item.category }} ] {{ item.question }}
+                  </div>
+                  <b-collapse :id="'questions-collapse-' + item.id">
+                    <b-card>
+                      <b-container>
+                        <b-row>
+                          <b-col class="py-3">
+                            <div>
+                              <strong>Q</strong>: {{item.question}}
+                            </div>
+                          </b-col>
+                        </b-row>
+                        <b-row>
+                          <b-col class="py-3">
+                            <div>
+                              <strong>A</strong>: {{item.answer}}
+                            </div>
+                          </b-col>
+                        </b-row>
+                      </b-container>
+                    </b-card>
+                  </b-collapse>
+                </b-list-group-item>
+              </b-list-group>
             </b-col>
           </b-row>
           <b-row>
@@ -116,6 +133,7 @@
                   :total-rows="questions.length"
                   :per-page="perPage"
                   aria-controls="test"
+                  @page-click="getPaginatedQuestions()"
                 >
               </b-pagination>
             </b-col>
@@ -133,11 +151,11 @@ export default {
   name: "SupportHome",
   data() {
     return {
-      perPage: 5,
+      perPage: 2,
       currentPage: 1,
-      questionTableFields: ['category', 'question', 'answer'],
-      questions: this.getQuestions,
-      FAQ: this.getFAQ(),
+      questions: this.getQuestions(),
+      paginatedQuestions: this.getPaginatedQuestions(),
+      FAQ: this.getFAQ()  ,
       questionSearch: '',
     }
   },
@@ -145,8 +163,10 @@ export default {
     goToLink(name) {
       this.$router.push({name: name})
     },
-    getQuestions() {
-      const questions = QuestionService.getQuestions()
+    async getQuestions() {
+      const questions = await QuestionService.getQuestions()
+
+      this.questions = questions
 
       return questions
     },
@@ -159,26 +179,48 @@ export default {
     },
     async getFilteredQuestions(filter) {
       if (this.questionSearch) {
-        const questions = await QuestionService.getFilteredQuestions(filter)
+        const filteredQuestions = await QuestionService.getFilteredQuestions(filter)
 
-        this.questions = questions.data
+        this.questions = filteredQuestions
 
-      } else {
+        await this.getPaginatedQuestions()
+      }
+
+      else {
         this.questions = this.getQuestions()
       }
     },
     async getCategorizedQuestions(category) {
-      const questions = await QuestionService.getCategorizedQuestions(category)
+      const categorizedQuestions = await QuestionService.getCategorizedQuestions(category)
 
-      this.questions = questions.data
+      this.questions = categorizedQuestions
+
+      await this.getPaginatedQuestions()
+
+      return categorizedQuestions
+    },
+    async getPaginatedQuestions() {
+        let questions = this.questions
+
+        if (!questions) {
+          questions = await QuestionService.getQuestions()
+        }
+
+        const currentPage = this.currentPage - 1
+        const paginatedQuestions = questions.slice(currentPage * this.perPage, currentPage + this.perPage)
+
+        this.paginatedQuestions = paginatedQuestions
+
+        return paginatedQuestions
     }
   },
   computed: {
-    loginStatus() {
-      return this.$store.state.loginStatus
+    test() {
+      return ''
     }
   },
   async created() {
+    console.log(await this.questions)
   },
   mounted() {
     window.scrollTo(0, 0)

@@ -139,21 +139,29 @@
 </template>
 
 <script>
-import { User } from '@/models/model-index'
+import { UserService } from '@/services/service-index'
+// import { User } from '@/models/model-index'
 
 export default {
   name: "Home",
   data() {
     return {
-      user: new User()
+      user: this.getUser()
     }
   },
-  created() {
-    const user = JSON.parse(localStorage.getItem('user'))
+  methods: {
+    async getUser() {
+      const token = JSON.parse(localStorage.getItem('token'))
 
-    this.user = new User(user.firstName, user.lastName, user.gender, user.birthDate, user.username, user.password, user.email, user.phoneNumber, user.roles)
+      const user = await UserService.getUser(token)
+      console.log(user)
+
+      return user
+    }
+  },
+  async created() {
+
   }
-
 }
 </script>
 

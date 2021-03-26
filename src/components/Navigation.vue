@@ -46,6 +46,7 @@ export default {
       //
       // console.log('user is not logged in')
       // return false
+      console.log(this.$store.state.loginStatus)
       return this.$store.state.loginStatus
     },
   },
@@ -59,8 +60,6 @@ export default {
     goToLink(name) {
       this.$router.push({name: name})
     }
-  },
-  created() {
   }
 }
 </script>

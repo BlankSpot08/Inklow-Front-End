@@ -1,39 +1,40 @@
-import QuestionRepository from '@/repository/question-repository'
+import { QuestionRepository } from '@/repository/repository-index'
 import { Question } from "@/models/model-index";
 
 class QuestionService {
-    async getQuestions() {
-        const questions = await QuestionRepository.getQuestions()
-        const questionsData = questions.data
+    getQuestions() {
+        const questions = QuestionRepository.getQuestions()
 
-        const temp = questionsData.map(e => {
-            return new Question(e.id, e.category, e.question, e.answer)
+        const temp = questions.then(result => {
+            const data = result.data.map(e => {
+                return new Question(e.id, e.category, e.question, e.answer)
+            })
+
+            return data
         })
 
         return temp
     }
 
-    async getFAQ() {
-        const FAQ = await QuestionRepository.getFAQ()
-        const FAQData = FAQ.data
-
-        const temp = FAQData.map(e => {
-            return e
-        })
-
-        return temp
+    getFAQ() {
+        return QuestionRepository.getFAQ()
+            .then(result => {
+                return result.data
+            })
     }
 
-    async getFilteredQuestions(filter) {
-        const filteredQuestions = await QuestionRepository.getFilteredQuestions(filter)
-
-        return filteredQuestions
+    getFilteredQuestions(filter) {
+        return QuestionRepository.getFilteredQuestions(filter)
+            .then(result => {
+                return result.data
+            })
     }
 
-    async getCategorizedQuestions(category) {
-        const categorizedQuestions = await QuestionRepository.getCategorizedQuestions(category)
-
-        return categorizedQuestions
+    getCategorizedQuestions(category) {
+        return QuestionRepository.getCategorizedQuestions(category)
+            .then(result => {
+                return result.data
+            })
     }
 }
 

@@ -57,14 +57,6 @@
             </b-row>
 
             <b-row align-h="center">
-              <vue-recaptcha sitekey='6LeCL4UaAAAAAMolc8ONk-34kJJNgBnDt_UKGPzH'>
-                <b-button>
-                  Click me
-                </b-button>
-              </vue-recaptcha>
-            </b-row>
-
-            <b-row align-h="center">
               <b-col class="py-3" md="4">
                 <b-button class="w-100" type="submit" size="lg"  squared>
                   Submit
@@ -91,10 +83,10 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const reportInquiry = await ReportInquiryRepository.addReportInquiryRepository(this.reportInquiry)
+      const reportInquiry = await ReportInquiryRepository.addReportInquiry(this.reportInquiry)
       const reportInquiryData = reportInquiry.data
 
-      const reportInquiryTemp = await ReportInquiryRepository.getReportInquiryRepository(reportInquiryData.title)
+      const reportInquiryTemp = await ReportInquiryRepository.getReportInquiry(reportInquiryData.title)
       const reportInquiryTempData = reportInquiryTemp.data
 
       const token = JSON.parse(localStorage.getItem('token'))

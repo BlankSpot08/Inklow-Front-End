@@ -3,23 +3,38 @@ import axios from 'axios'
 import { UserRepository } from "@/repository/repository-index";
 
 class AuthenticationService {
-    async user_authentication(user) {
-        const authentication = await axios.post('api/user_authentication', user)
+    user_authentication(user) {
+        return axios.post('api/user_authentication', user)
+            .then(result => {
+                if (result) {
+                    const token = result.data.jwt
 
-        if (authentication) {
-            const token = authentication.data.jwt
+                    const user = UserRepository.getUser(token).then(result => {
+                        return result.data
+                    })
 
-            const user = (await UserRepository.getUser(token)).data
+                    if (token && user) {
+                        localStorage.setItem('token', JSON.stringify(token))
 
-            if (token && user) {
-                localStorage.setItem('token', JSON.stringify(token))
-                localStorage.setItem('user', JSON.stringify(user))
+                        return user
+                    }
+                }
 
-                return user
-            }
-        }
-
-        return undefined
+                return undefined
+            })
+        // if (authentication) {
+        //     const token = authentication.data.jwt
+        //
+        //     const user = (UserRepository.getUser(token)).data
+        //
+        //     if (token && user) {
+        //         localStorage.setItem('token', JSON.stringify(token))
+        //
+        //         return user
+        //     }
+        // }
+        //
+        // return undefined
     }
 
     logout() {
@@ -29,6 +44,9 @@ class AuthenticationService {
 
     user_registration(user) {
         return axios.post('api/user_registration', user)
+            .then(result => {
+                return result.data
+            })
     }
 }
 

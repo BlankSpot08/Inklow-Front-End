@@ -12,8 +12,7 @@ class InquiryRepository {
         })
 
         return initialCategory.concat(mainCategory);
-    }
+}
 }
 
 export default new InquiryRepository();
-

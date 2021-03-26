@@ -21,7 +21,6 @@ export default {
 
 <style lang="css">
   @import url('https://fonts.googleapis.com/css2?family=Texturina&display=swap');
-  @import url('https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
 
   body,
   html,
