@@ -1,7 +1,15 @@
-import { ReportInquiryRepository } from "@/repository/repository-index";
-import { ReportInquiry } from "@/models/model-index";
+import {ReportInquiryRepository} from "@/repository/repository-index";
+import {ReportInquiry} from "@/models/model-index";
 
 class ReportInquiryService {
+    addReportInquiry(reportInquiry) {
+        const temp = ReportInquiryRepository.addReportInquiry(reportInquiry)
+
+        return temp.then(result => {
+            return result.data
+        })
+    }
+
     getUserReportInquiry(token) {
         const reportInquiries = ReportInquiryRepository.getUserReportInquiry(token)
 
@@ -14,6 +22,14 @@ class ReportInquiryService {
         })
 
         return temp
+    }
+
+    getReportInquiryByTitle(title) {
+        const reportInquiry = ReportInquiryRepository.getReportInquiry(title)
+
+        return reportInquiry.then(result => {
+            return result.data
+        })
     }
 }
 

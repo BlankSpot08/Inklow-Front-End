@@ -16,7 +16,7 @@
 
             <b-row>
               <b-col>
-                <b-form-select class="w-100 mb-3" v-model="reportInquiry.category" :options="categories" size="lg" required>
+                <b-form-select class="w-100 mb-3" v-model="selected" :options="categories" size="lg" required>
                 </b-form-select>
 
                 <b-input class="w-100 mb-3" v-model="reportInquiry.title" placeholder="Inquiry Title" type="text" size="lg" required>
@@ -31,7 +31,7 @@
             <b-row>
               <b-col>
                 <b-form-group label="Details" label-size="lg">
-                  <b-textarea v-model="reportInquiry.details" placeholder="We can get back to you faster if you provide us with more details." rows="7" no-resize>
+                  <b-textarea v-model="reportInquiryDetail.details" placeholder="We can get back to you faster if you provide us with more details." rows="7" no-resize>
                   </b-textarea>
                 </b-form-group>
               </b-col>
@@ -71,67 +71,64 @@
 </template>
 
 <script>
-import VueRecaptcha from 'vue-recaptcha'
-import { InquiryRepository, ReportInquiryRepository, UserReportInquiryRepository } from '@/repository/repository-index'
-import { UserRepository } from '@/repository/repository-index'
-import { UserReportInquiry } from '@/models/model-index'
+import {InquiryService, ReportInquiryDetailsService, ReportInquiryService, UserService} from '@/services/service-index'
+import {ReportInquiry, ReportInquiryDetail} from "@/models/model-index";
 
 export default {
   name: "SupportWrite",
   components: {
-    VueRecaptcha
   },
   methods: {
     async handleSubmit() {
-      const reportInquiry = await ReportInquiryRepository.addReportInquiry(this.reportInquiry)
-      const reportInquiryData = reportInquiry.data
+      const currentDate = new Date()
 
-      const reportInquiryTemp = await ReportInquiryRepository.getReportInquiry(reportInquiryData.title)
-      const reportInquiryTempData = reportInquiryTemp.data
+      this.reportInquiry.dateCreated = currentDate
+      this.reportInquiry.lastUpdated = currentDate
 
       const token = JSON.parse(localStorage.getItem('token'))
-      if (token) {
-        const user = await UserRepository.getUser(token)
+      const user = await UserService.getUser(token)
 
-        if (user) {
-          const userData = user.data
+      this.reportInquiry.userId = user.id
 
-          const userReportInquiry = new UserReportInquiry(userData.id, reportInquiryTempData.id)
+      const status = 'Opened'
+      this.reportInquiry.status = status
 
-          await UserReportInquiryRepository.addUserReportInquiryRepository(userReportInquiry)
-        }
-      }
+      this.reportInquiry.category = this.selected
+
+      const reportInquiry = await ReportInquiryService.addReportInquiry(this.reportInquiry)
+
+      const reportInquiryTemp = await ReportInquiryService.getReportInquiryByTitle(reportInquiry.title)
+
+      this.reportInquiryDetail.reportInquiryId = reportInquiryTemp.id
+      this.reportInquiryDetail.dateCreated = reportInquiryTemp.dateCreated
+      this.reportInquiryDetail.status = 'Opened'
+
+      const reportInquiryDetails = await ReportInquiryDetailsService.addReportInquiryDetail(this.reportInquiryDetail)
+      console.log(reportInquiryDetails)
 
       this.reset()
     },
     async getInquiryCategories(inquiry) {
-      const inquiryCategories = await InquiryRepository.getInquiryCategoriesByName(inquiry)
+      const inquiryCategories = await InquiryService.getInquiryCategoriesByName(inquiry)
 
       this.categories = inquiryCategories
 
       return this.categories
     },
     reset() {
-      this.reportInquiry = {
-        category: null,
-        email: '',
-        title: '',
-        details: ''
-      }
+      this.reportInquiry = new ReportInquiry()
+      this.reportInquiryDetail = new ReportInquiryDetail()
 
       this.privacy = false
+      this.selected = null
 
       window.scrollTo(0, 0)
     }
   },
   data() {
     return {
-      reportInquiry: {
-        category: null,
-        email: '',
-        title: '',
-        details: ''
-      },
+      reportInquiry: new ReportInquiry(),
+      reportInquiryDetail: new ReportInquiryDetail(),
       selected: null,
       privacy: false,
       privacyPolicy: "Terms and Conditions:\n" +

@@ -29,7 +29,7 @@
             <div class="border py-2 px-2">
               [ {{ question.category }} ] {{ question.question }}
             </div>
-            <b-collapse :id="'faq-collapse-' + question.id">
+            <b-collapse :id="'faq-collapse-' + question.id" accordion="faq">
               <b-card>
                 <b-container>
                   <b-row>
@@ -101,7 +101,7 @@
                   <div class="border py-2 px-2">
                     [ {{ item.category }} ] {{ item.question }}
                   </div>
-                  <b-collapse :id="'questions-collapse-' + item.id">
+                  <b-collapse :id="'questions-collapse-' + item.id" accordion="questions">
                     <b-card>
                       <b-container>
                         <b-row>
@@ -130,9 +130,8 @@
               <b-pagination
                   class="justify-content-center"
                   v-model="currentPage"
-                  :total-rows="questions.length"
                   :per-page="perPage"
-                  aria-controls="test"
+                  :total-rows="questions.length"
                   @page-click="getPaginatedQuestions()"
                 >
               </b-pagination>
@@ -151,8 +150,8 @@ export default {
   name: "SupportHome",
   data() {
     return {
-      perPage: 2,
       currentPage: 1,
+      perPage: 2,
       questions: this.getQuestions(),
       paginatedQuestions: this.getPaginatedQuestions(),
       FAQ: this.getFAQ()  ,
@@ -200,27 +199,26 @@ export default {
       return categorizedQuestions
     },
     async getPaginatedQuestions() {
-        let questions = this.questions
+      let questions = this.questions
 
-        if (!questions) {
-          questions = await QuestionService.getQuestions()
-        }
+      if (!questions) {
+        questions = await QuestionService.getQuestions()
+      }
 
-        const currentPage = this.currentPage - 1
-        const paginatedQuestions = questions.slice(currentPage * this.perPage, currentPage + this.perPage)
+      const currentPage = this.currentPage - 1
 
-        this.paginatedQuestions = paginatedQuestions
+      const paginatedQuestions = questions.slice(currentPage * this.perPage, (currentPage * this.perPage) + this.perPage)
 
-        return paginatedQuestions
+      this.paginatedQuestions = paginatedQuestions
+
+      return paginatedQuestions
     }
   },
   computed: {
-    test() {
-      return ''
-    }
+
   },
   async created() {
-    console.log(await this.questions)
+
   },
   mounted() {
     window.scrollTo(0, 0)
